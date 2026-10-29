@@ -14,7 +14,7 @@ Ví dụ: nhờ nhà cung cấp xác nhận lịch giao khi đơn hàng *có th�
    python scripts/install.py
    ```
 
-   Mặc định cài vào `~/.codex/skills`. Trên Windows, có thể dùng `py` thay cho `python`. Nếu một skill cùng tên đã tồn tại, trình cài **dừng trước khi ghi**; chọn thư mục khác bằng `--target` hoặc tự đối chiếu và cài từng skill. Không cần cài gói Python bên ngoài.
+   Mặc định cài vào `~/.codex/skills`. Trên Windows, có thể dùng `py` thay cho `python`. Nếu một skill cùng tên đã tồn tại, trình cài **dừng trước khi ghi**; chọn thư mục khác bằng `--target`, hoặc dùng `--only vietnamese-business-email` để cài một skill chưa có. Có thể lặp `--only` cho nhiều skill. Không cần cài gói Python bên ngoài.
 
 3. Mở phiên agent mới và thử:
 
