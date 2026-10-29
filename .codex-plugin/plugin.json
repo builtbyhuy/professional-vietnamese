@@ -1,0 +1,6 @@
+{
+  "name": "professional-vietnamese",
+  "version": "0.2.0",
+  "description": "Skills for clear, accurate Vietnamese workplace writing and review.",
+  "skills": "./skills/"
+}
