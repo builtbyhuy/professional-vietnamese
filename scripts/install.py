@@ -11,9 +11,17 @@ def main():
     parser.add_argument('--target', type=Path, default=Path.home() / '.codex' / 'skills',
                         help='Destination skill directory (default: ~/.codex/skills)')
     parser.add_argument('--dry-run', action='store_true', help='Show changes without writing')
+    parser.add_argument('--only', action='append', metavar='NAME',
+                        help='Install only this skill; may be repeated')
     args = parser.parse_args()
     source = Path(__file__).resolve().parent.parent / 'skills'
     skills = sorted(p for p in source.iterdir() if p.is_dir() and (p / 'SKILL.md').is_file())
+    if args.only:
+        available = {p.name: p for p in skills}
+        unknown = sorted(set(args.only) - available.keys())
+        if unknown:
+            parser.error('Unknown skill(s): ' + ', '.join(unknown))
+        skills = [available[name] for name in sorted(set(args.only))]
     if not skills:
         parser.error('No skill folders found')
     target = args.target.expanduser()
@@ -22,7 +30,7 @@ def main():
         print('Installation stopped: destination already contains:', file=sys.stderr)
         for conflict in conflicts:
             print(f'  {conflict}', file=sys.stderr)
-        print('Existing files were not changed. Choose another --target or install individual skills manually.', file=sys.stderr)
+        print('Existing files were not changed. Choose another --target or use --only for non-conflicting skills.', file=sys.stderr)
         return 1
     for skill in skills:
         print(f'{skill.name} -> {target / skill.name}')
