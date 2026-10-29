@@ -36,6 +36,17 @@ class InstallTest(unittest.TestCase):
             self.assertEqual(existing.read_text(encoding='utf-8'), 'keep me')
             self.assertEqual([p.name for p in target.iterdir()], ['professional-vietnamese'])
 
+    def test_only_installs_selected_without_touching_existing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / 'skills'
+            existing = target / 'professional-vietnamese' / 'SKILL.md'
+            existing.parent.mkdir(parents=True)
+            existing.write_text('keep me', encoding='utf-8')
+            result = self.run_installer(target, '--only', 'vietnamese-business-email')
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(existing.read_text(encoding='utf-8'), 'keep me')
+            self.assertTrue((target / 'vietnamese-business-email' / 'SKILL.md').is_file())
+
 
 if __name__ == '__main__':
     unittest.main()
